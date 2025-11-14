@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İbrahim Totan | Profil</title>
+<link rel="icon" type="image/png" href="ibo.jpg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body, html { margin:0; padding:0; height:100%; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#1a1a2b; display:flex; justify-content:center; align-items:center; flex-direction:column; }
+canvas#bgCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+
+.profil-kart { background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius:25px; padding:30px 35px; box-shadow:0 12px 30px rgba(0,0,0,0.35); text-align:center; width:320px; border:1px solid rgba(255,255,255,0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.profil-kart:hover { transform: translateY(-5px); box-shadow:0 20px 35px rgba(0,0,0,0.45); }
+
+.profil-resmi { width:120px; height:120px; border-radius:50%; object-fit:cover; border:4px solid rgba(255,255,255,0.8); margin-bottom:15px; box-shadow:0 6px 15px rgba(0,0,0,0.3); animation: shine 3s infinite; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.profil-resmi:hover { transform: scale(1.1) rotate(8deg); box-shadow:0 0 25px rgba(255,255,255,0.8), 0 0 50px rgba(75,108,183,0.5); }
+@keyframes shine {0% {box-shadow:0 0 15px rgba(255,255,255,0.2);} 50% {box-shadow:0 0 25px rgba(255,255,255,0.5);} 100% {box-shadow:0 0 15px rgba(255,255,255,0.2);}}
+
+h1 { margin:0 0 15px 0; font-size:26px; color:#fff; letter-spacing:1px; }
+
+.sosyal-linkler { margin-top:15px; display:flex; flex-direction:column; gap:12px; align-items:center; }
+.sosyal-linkler button, .sosyal-linkler a.btn-sosyal { cursor:pointer; background: linear-gradient(135deg, #4b6cb7, #182848); border:none; color:#fff; padding:10px 18px; font-size:14px; border-radius:15px; font-weight:bold; display:flex; align-items:center; gap:8px; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; text-decoration:none; width:100%; justify-content:center; }
+.sosyal-linkler button:hover, .sosyal-linkler a.btn-sosyal:hover { transform: translateY(-3px) scale(1.03); background: linear-gradient(135deg, #182848, #4b6cb7); box-shadow:0 0 25px rgba(255,255,255,0.5), 0 0 15px rgba(75,108,183,0.4); }
+
+.hakkimda { display:none; background: rgba(255,255,255,0.05); backdrop-filter: blur(15px); border-radius:20px; padding:20px 25px; width:320px; color:#eee; font-size:14px; line-height:1.5; margin-top:15px; box-shadow:0 6px 20px rgba(0,0,0,0.25); text-align:center; }
+.hakkimda h2 { margin-top:0; margin-bottom:10px; color:#fff; font-size:20px; letter-spacing:1px; }
+.hakkimda .detay { display:flex; align-items:center; gap:10px; margin-top:6px; font-size:14px; justify-content:center; }
+.hakkimda .detay i { color:#4b6cb7; min-width:20px; text-align:center; }
+
+.yetenekler { display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-top:12px; }
+.yetenekler .ikon { background: rgba(255,255,255,0.1); padding:8px 12px; border-radius:12px; display:flex; align-items:center; gap:6px; font-size:13px; transition: transform 0.3s ease, background 0.3s ease; animation: float 4s ease-in-out infinite; }
+.yetenekler .ikon:hover { transform: translateY(-3px) scale(1.05); background: rgba(255,255,255,0.2); }
+
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+#playBtn {
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#playBtn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 25px rgba(255,255,255,0.5), 0 0 15px rgba(75,108,183,0.4);
+}
+
+footer { width:100%; text-align:center; padding:12px 0; color:#aaa; font-size:12px; border-top:1px solid rgba(255,255,255,0.1); margin-top:20px; }
+
+#easterEgg { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(255,255,255,0.1); padding:25px 35px; border-radius:20px; color:#fff; font-size:18px; backdrop-filter: blur(20px); text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:1001; }
+
+@media (max-width:400px) { .profil-kart,.hakkimda { width:90%; } .sosyal-linkler button, .sosyal-linkler a.btn-sosyal { font-size:13px; padding:8px 14px; } h1 { font-size:22px; } .hakkimda h2 { font-size:18px; } }
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="profil-kart">
+    <img src="ibo.jpg" alt="Profil" class="profil-resmi">
+    <h1>İbrahim Etem Totan</h1>
+
+    <div class="sosyal-linkler">
+        <button id="hakkimdaBtn"><i class="fas fa-user"></i> Hakkımda</button>
+        <a href="https://www.instagram.com/1ibrahm___/?utm_source=ig_web_button_share_sheet" target="_blank" class="btn-sosyal"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.tiktok.com/@brahmtotan?is_from_webapp=1&sender_device=pc" target="_blank" class="btn-sosyal"><i class="fab fa-tiktok"></i> TikTok</a>
+        <button id="playBtn">🎵 Şarkıyı Çal</button>
+        <audio id="muzik" src="sarkimp3.mp3"></audio>
+    </div>
+</div>
+
+<div class="hakkimda" id="hakkimdaSection">
+    <h2>Hakkımda</h2>
+    <p id="hakkimdaText"></p>
+    <div class="detay"><i class="fas fa-calendar"></i> 23 yaş</div>
+    <div class="detay"><i class="fas fa-map-marker-alt"></i> Erzurum</div>
+    <div class="detay"><i class="fas fa-briefcase"></i> Ecza deposunda şef</div>
+
+    <div class="yetenekler">
+        <div class="ikon"><i class="fas fa-house"></i> Ev Erkeği</div>
+        <div class="ikon"><i class="fas fa-shoe-prints"></i> Ayak Fetişisti</div>
+        <div class="ikon"><i class="fas fa-calculator"></i> 10/3</div>
+        <div class="ikon"><i class="fas fa-bullseye"></i> Lider</div>
+    </div>
+</div>
+
+<div id="easterEgg">Parmaklarını ovalarım canım 😏</div>
+
+<footer>© 2025 İbrahim Totan. Tüm hakları saklıdır.</footer>
+
+<script>
+// Hakkımda toggle ve typing effect
+const btn = document.getElementById('hakkimdaBtn');
+const section = document.getElementById('hakkimdaSection');
+const hakkimdaText = document.getElementById('hakkimdaText');
+const textContent = "Merhaba, ben İbrahim. Bekarım ve yalnızlıktan sıkıldım 😏. Bir ilaç firmasında şef olarak çalışmaktayım. Aynı anda 5-6 kadını doyurabilecek dolgun bir maaşa sahibim 💸. Yakında jandarmayı kazanıp TSK'da yerimi almayı hedefleyen inatçı bir herifim. Disiplin benim için hayat tarzı;Rahatlık ise sadece hak edene gösterdiğim lüks. Tatile gitmeyi severim sahilde başı boş gezen bir kadın görürsem çadıra atıp icabına bakarım. olurda düşersen bayılırsan parmak ovalama hizmetimle seni kendine getiririm Fingersnap aşko. Eğer bana uyum sağlayabilecek cesur biriysen, aşağıdaki linklerden ulaşabilirsin. Taliplerimi bekliyorum, sıradanlarla vakit kaybetmem! ";
+let typingInterval;
+
+btn.addEventListener('click', () => {
+    if(section.style.display === 'none' || section.style.display === ''){
+        section.style.display = 'block';
+        hakkimdaText.textContent = "";
+        let i = 0;
+        typingInterval = setInterval(()=> {
+            hakkimdaText.textContent += textContent.charAt(i);
+            i++;
+            if(i >= textContent.length) clearInterval(typingInterval);
+        }, 25);
+        section.scrollIntoView({behavior:'smooth'});
+    } else {
+        section.style.display = 'none';
+        clearInterval(typingInterval);
+    }
+});
+
+// Particles background
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function initParticles() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    particles = [];
+    for(let i=0;i<80;i++){
+        particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*3+1, d:Math.random()*1});
+    }
+}
+function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.beginPath();
+    for(let i=0;i<particles.length;i++){
+        let p = particles[i];
+        ctx.moveTo(p.x,p.y);
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+    }
+    ctx.fill();
+    updateParticles();
+}
+let angle = 0;
+function updateParticles(){
+    angle +=0.01;
+    for(let i=0;i<particles.length;i++){
+        let p=particles[i];
+        p.y += Math.cos(angle+p.d)+0.5;
+        p.x += Math.sin(angle)*0.5;
+        if(p.x>canvas.width) p.x=0;
+        if(p.x<0) p.x=canvas.width;
+        if(p.y>canvas.height) p.y=0;
+    }
+    requestAnimationFrame(drawParticles);
+}
+window.addEventListener('resize', initParticles);
+initParticles();
+drawParticles();
+
+// Easter Egg
+let pressTimer;
+btn.addEventListener('mousedown', ()=> { pressTimer = setTimeout(showEaster, 1500); });
+btn.addEventListener('mouseup', ()=> { clearTimeout(pressTimer); });
+btn.addEventListener('mouseleave', ()=> { clearTimeout(pressTimer); });
+function showEaster(){
+    const egg = document.getElementById('easterEgg');
+    egg.style.display = 'block';
+    setTimeout(()=>{ egg.style.display = 'none'; }, 4000);
+}
+
+// Şarkı çalma butonu
+const playBtn = document.getElementById("playBtn");
+const muzik = document.getElementById("muzik");
+
+playBtn.addEventListener("click", () => {
+    if (muzik.paused) {
+        muzik.play();
+        playBtn.textContent = "⏸ Şarkıyı Durdur";
+    } else {
+        muzik.pause();
+        playBtn.textContent = "🎵 Şarkıyı Çal";
+    }
+});
+</script>
+
+</body>
+</html>
